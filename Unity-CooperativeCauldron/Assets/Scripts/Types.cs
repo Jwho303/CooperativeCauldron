@@ -20,4 +20,12 @@ namespace RenderHeads
         AntiClockWise,
         None
     }
+
+    public enum IngredientType
+	{
+        Tail,
+        Eyeball,
+        Skull,
+        Claw
+	}
 }
