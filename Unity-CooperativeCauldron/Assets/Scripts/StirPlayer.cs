@@ -13,28 +13,12 @@ namespace RenderHeads
         public KeyCode Left;
         public KeyCode Right;
 
-        public enum Direction
-        {
-            None = 0,
-            Up = 1,
-            Right = 2,
-            Down = 3,
-            Left = 4,
-        }
-
-        public enum StirDirection
-		{
-            ClockWise,
-            AntiClockWise,
-            None
-		}
-
-
-        public List<Direction> DirectionBuffer = new List<Direction>();
+        public List<JoystickDirection> DirectionBuffer = new List<JoystickDirection>();
         public StirDirection Stir;
 
         public float TimeoutDuration = 0.25f;
         public float Timer = 0f;
+        public Transform Visual;
         #endregion
 
         #region Private Properties
@@ -44,31 +28,37 @@ namespace RenderHeads
         #region Public Methods
         public void Update()
 		{
-            Direction direction = Direction.None;
+            JoystickDirection direction = JoystickDirection.None;
+            Vector3 targetPosition = Vector3.zero;
 
             if (Input.GetKey(Up))
 			{
                // Debug.Log("Up");
-                direction = Direction.Up;
-
+                direction = JoystickDirection.Up;
+                targetPosition = new Vector3(0f, 1f, 0f);
             }
             else if (Input.GetKey(Down))
             {
                // Debug.Log("Down");
-                direction = Direction.Down;
+                direction = JoystickDirection.Down;
+                targetPosition = new Vector3(0f, -1f, 0f);
             }
             if (Input.GetKey(Left))
             {
                 //Debug.Log("Left");
-                direction = Direction.Left;
+                direction = JoystickDirection.Left;
+                targetPosition = new Vector3(-1, targetPosition.y, 0f);
             }
             else if (Input.GetKey(Right))
             {
                // Debug.Log("Right");
-                direction = Direction.Right;
+                direction = JoystickDirection.Right;
+                targetPosition = new Vector3(1, targetPosition.y, 0f);
             }
 
-            if (direction != Direction.None)
+            Visual.position = targetPosition;
+
+            if (direction != JoystickDirection.None)
 			{
                 if (!DirectionBuffer.Contains(direction))
 				{
@@ -81,16 +71,16 @@ namespace RenderHeads
                     FailStir();
 				}
 
-                if (DirectionBuffer.Contains(Direction.Up) && DirectionBuffer.Contains(Direction.Down) && DirectionBuffer.Contains(Direction.Left) && DirectionBuffer.Contains(Direction.Right))
+                if (DirectionBuffer.Contains(JoystickDirection.Up) && DirectionBuffer.Contains(JoystickDirection.Down) && DirectionBuffer.Contains(JoystickDirection.Left) && DirectionBuffer.Contains(JoystickDirection.Right))
 				{
 					switch (DirectionBuffer[0])
 					{
-						case Direction.Up:
-                            if (DirectionBuffer[1] == Direction.Right)
+						case JoystickDirection.Up:
+                            if (DirectionBuffer[1] == JoystickDirection.Right)
 							{
                                 PassStir(StirDirection.ClockWise);
                             }
-                            else if (DirectionBuffer[1] == Direction.Left)
+                            else if (DirectionBuffer[1] == JoystickDirection.Left)
                             {
                                 PassStir(StirDirection.AntiClockWise);
                             }
@@ -99,12 +89,12 @@ namespace RenderHeads
                                 FailStir();
                             }
 							break;
-						case Direction.Right:
-                            if (DirectionBuffer[1] == Direction.Down)
+						case JoystickDirection.Right:
+                            if (DirectionBuffer[1] == JoystickDirection.Down)
                             {
                                 PassStir(StirDirection.ClockWise);
                             }
-                            else if (DirectionBuffer[1] == Direction.Up)
+                            else if (DirectionBuffer[1] == JoystickDirection.Up)
                             {
                                 PassStir(StirDirection.AntiClockWise);
                             }
@@ -113,12 +103,12 @@ namespace RenderHeads
                                 FailStir();
                             }
                             break;
-						case Direction.Down:
-                            if (DirectionBuffer[1] == Direction.Right)
+						case JoystickDirection.Down:
+                            if (DirectionBuffer[1] == JoystickDirection.Right)
                             {
                                 PassStir(StirDirection.AntiClockWise);
                             }
-                            else if (DirectionBuffer[1] == Direction.Left)
+                            else if (DirectionBuffer[1] == JoystickDirection.Left)
                             {
                                 PassStir(StirDirection.ClockWise);
                             }
@@ -127,12 +117,12 @@ namespace RenderHeads
                                 FailStir();
                             }
                             break;
-						case Direction.Left:
-                            if (DirectionBuffer[1] == Direction.Up)
+						case JoystickDirection.Left:
+                            if (DirectionBuffer[1] == JoystickDirection.Up)
                             {
                                 PassStir(StirDirection.ClockWise);
                             }
-                            else if (DirectionBuffer[1] == Direction.Down)
+                            else if (DirectionBuffer[1] == JoystickDirection.Down)
                             {
                                 PassStir(StirDirection.AntiClockWise);
                             }
@@ -159,11 +149,12 @@ namespace RenderHeads
             }
 
 
-		}
+
+        }
 		#endregion
 
 		#region Private Methods
-        private void FailStir()
+		private void FailStir()
 		{
             Debug.Log("Fail Stir");
             Stir = StirDirection.None;
