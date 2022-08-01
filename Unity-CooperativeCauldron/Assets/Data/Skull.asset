@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Skull
   m_EditorClassIdentifier: 
   IngredientType: 2
-  GamePrefab: {fileID: 0}
+  GamePrefab: {fileID: 3355461942061679044, guid: 58cc415625aee44c083cb1272ce43b9a, type: 3}
   SFX: {fileID: 8300000, guid: 727cb59dbcc6746e3946880f9cf19fec, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: cb9e9e93b262a421c913d54805efbac2, type: 3}

@@ -18,7 +18,10 @@ namespace RenderHeads
 
         public float TimeoutDuration = 0.25f;
         public float Timer = 0f;
-        public Transform Visual;
+        public SpriteRenderer Visual;
+        public Sprite[] Sprites;
+
+        public GameObject[] StateHeads;
         #endregion
 
         #region Private Properties
@@ -28,6 +31,37 @@ namespace RenderHeads
         #region Public Methods
         public void Update()
 		{
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+			{
+				for (int i = 0; i < StateHeads.Length; i++)
+				{
+                    StateHeads[i].SetActive(false);
+				}
+
+                StateHeads[0].SetActive(true);
+			}
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                for (int i = 0; i < StateHeads.Length; i++)
+                {
+                    StateHeads[i].SetActive(false);
+                }
+
+                StateHeads[1].SetActive(true);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                for (int i = 0; i < StateHeads.Length; i++)
+                {
+                    StateHeads[i].SetActive(false);
+                }
+
+                StateHeads[2].SetActive(true);
+            }
+
+
             JoystickDirection direction = JoystickDirection.None;
             Vector3 targetPosition = Vector3.zero;
 
@@ -56,7 +90,42 @@ namespace RenderHeads
                 targetPosition = new Vector3(1, targetPosition.y, 0f);
             }
 
-            Visual.position = targetPosition;
+            if (targetPosition == Vector3.zero)
+			{
+                Visual.sprite = Sprites[0];
+			}
+            else if (targetPosition == new Vector3(1f,-1f,0))
+			{
+                Visual.sprite = Sprites[1];
+			}
+            else if (targetPosition == new Vector3(0f, -1f, 0))
+            {
+                Visual.sprite = Sprites[2];
+            }
+            else if (targetPosition == new Vector3(-1f, -1f, 0))
+            {
+                Visual.sprite = Sprites[3];
+            }
+            else if (targetPosition == new Vector3(-1f, 0f, 0))
+            {
+                Visual.sprite = Sprites[4];
+            }
+            else if (targetPosition == new Vector3(-1f, 1f, 0))
+            {
+                Visual.sprite = Sprites[5];
+            }
+            else if (targetPosition == new Vector3(0f, 1f, 0))
+            {
+                Visual.sprite = Sprites[6];
+            }
+            else if (targetPosition == new Vector3(1f, 1f, 0))
+            {
+                Visual.sprite = Sprites[7];
+            }
+            else if (targetPosition == new Vector3(1f, 0f, 0))
+            {
+                Visual.sprite = Sprites[8];
+            }
 
             if (direction != JoystickDirection.None)
 			{

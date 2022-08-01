@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Tail
   m_EditorClassIdentifier: 
   IngredientType: 0
-  GamePrefab: {fileID: 0}
+  GamePrefab: {fileID: 3856900031731248105, guid: ee68106f8167145a2958973c821c33aa, type: 3}
   SFX: {fileID: 8300000, guid: e9e471f11b8aa429a8bc9cbe6e039d91, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: 250aff416644d4eb1b3cc21fba6ea779, type: 3}

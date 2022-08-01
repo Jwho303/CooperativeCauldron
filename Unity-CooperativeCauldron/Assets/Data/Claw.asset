@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Claw
   m_EditorClassIdentifier: 
   IngredientType: 3
-  GamePrefab: {fileID: 0}
+  GamePrefab: {fileID: 1016888878112605339, guid: ec50fff6431f34f3598c513653bc57c2, type: 3}
   SFX: {fileID: 8300000, guid: 223041f0fcc6d4b899b91ae31deebd94, type: 3}
-  Sprite: {fileID: 0}
+  Sprite: {fileID: 21300000, guid: c0900dd67f47a42cb80f97e1ce0cd711, type: 3}

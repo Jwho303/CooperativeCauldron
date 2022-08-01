@@ -19,6 +19,11 @@ namespace RenderHeads
         public float MaxRotateSpeed = 100f;
         public float SpeedChange = 1f;
         public float DampenSpeed = 10f;
+        public Transform[] SpawnPoints;
+        public Transform SpawnParent;
+        public List<GameObject> IngredientsInPlay = new List<GameObject>();
+        public IngredientData[] IngredientDatas;
+        public int IngredientIndex = 0;
 		#endregion
 
 		#region Private Properties
@@ -26,20 +31,49 @@ namespace RenderHeads
 		#endregion
 
 		#region Public Methods
+		public void Start()
+		{
+            IngredientIndex = UnityEngine.Random.Range(0, IngredientDatas.Length - 1);
+            UpdateJar();
+		}
+
+		private void UpdateJar()
+		{
+			for (int i = 0; i < IngredientsInPlay.Count; i++)
+			{
+                Destroy(IngredientsInPlay[i]);
+			}
+            IngredientsInPlay.Clear();
+            RotateTarget.rotation = Quaternion.identity;
+            TargetSpeed = 0;
+
+            for (int i = 0; i < SpawnPoints.Length; i++)
+            {
+                GameObject go = Instantiate(IngredientDatas[IngredientIndex].GamePrefab, SpawnPoints[i].transform.position, Quaternion.identity, SpawnParent);
+                IngredientsInPlay.Add(go);
+
+            }
+        }
+
 		public void Update()
 		{
             JoystickDirection direction = JoystickDirection.None;
 
-            if (Input.GetKey(Up))
+            if (Input.GetKeyDown(Up))
             {
-                // Debug.Log("Up");
-                direction = JoystickDirection.Up;
+                IngredientIndex++;
+                IngredientIndex = Mathf.Abs(IngredientIndex % IngredientDatas.Length);
 
+                UpdateJar();
             }
-            else if (Input.GetKey(Down))
+            else if (Input.GetKeyDown(Down))
             {
-                // Debug.Log("Down");
-                direction = JoystickDirection.Down;
+                IngredientIndex--;
+                if (IngredientIndex<0)
+				{
+                    IngredientIndex = IngredientDatas.Length - 1;
+                }
+                UpdateJar();
             }
             if (Input.GetKey(Left))
             {
@@ -58,10 +92,6 @@ namespace RenderHeads
 
                 Rotate(dir, SpeedChange);
             }
-            else if (direction == JoystickDirection.Up || direction == JoystickDirection.Down)
-			{
-
-			}
             else
 			{
                 DampenRotation();

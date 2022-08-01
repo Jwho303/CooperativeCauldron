@@ -22,10 +22,16 @@ namespace RenderHeads
     }
 
     public enum IngredientType
-	{
+    {
         Tail,
         Eyeball,
         Skull,
         Claw
-	}
+    }
+
+    public enum RequestType
+        {
+        Stir,
+        Ingredient,
+        }
 }
